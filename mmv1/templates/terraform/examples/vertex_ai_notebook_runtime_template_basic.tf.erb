@@ -1,0 +1,18 @@
+resource "google_vertex_ai_runtime_template" "<%= ctx[:primary_resource_id] %> %>" {
+  displayName = "<%= ctx[:vars]['template_name'] %>"
+  region = "us-central1"
+
+  labels = {
+    label-one = "value-one"
+  }
+
+  machine_spec {
+    machine_type = "e2-standard-4"
+  }
+
+  network_spec {
+    enable_internet_access = false
+    network = "default"
+
+  }
+}
