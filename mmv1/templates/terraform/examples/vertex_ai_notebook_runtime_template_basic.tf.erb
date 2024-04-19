@@ -1,4 +1,16 @@
-resource "google_vertex_ai_runtime_template" "<%= ctx[:primary_resource_id] %> %>" {
+resource "google_compute_network" "default" {
+  name                    = "<%= [:vars]['template_name'] %>"
+  auto_create_subnetworks = false
+}
+
+resource "google_compute_subnetwork" "default" {
+  name            = "<%= ctx[:vars]['template_name'] %>"
+  ip_cidr_range   = "10.0.0.0/24"
+  region          = "us-central1"
+  network         = google_compute_network.default.name
+}
+
+resource "google_vertex_ai_runtime_template" "<%= ctx[:primary_resource_id] %>" {
   displayName = "<%= ctx[:vars]['template_name'] %>"
   region = "us-central1"
 
@@ -12,7 +24,6 @@ resource "google_vertex_ai_runtime_template" "<%= ctx[:primary_resource_id] %> %
 
   network_spec {
     enable_internet_access = false
-    network = "default"
-
+    network = "<%= ctx[:vars]['template_name'] %>"
   }
 }
