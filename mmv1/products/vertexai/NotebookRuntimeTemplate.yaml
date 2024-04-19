@@ -28,18 +28,21 @@ immutable: true
 create_verb: :POST
 iam_policy: !ruby/object:Api::Resource::IamPolicy
   method_name_separator: ':'
-  fetch_iam_policy_verb: :GET
+  fetch_iam_policy_verb: :POST
   parent_resource_attribute: 'name'
+  allowed_iam_role: 'roles/aiplatform.colabEnterpriseUser'
   import_format: [
-    'projects/{{project}}/locations/{{location}}/notebookRuntimeTemplates/{{name}}'
+    'projects/{{project}}/locations/{{location}}/notebookRuntimeTemplates/{{name}}',
+    '{{name}}'
   ]
 examples:
   - !ruby/object:Provider::Terraform::Examples
     name: 'vertex_ai_notebook_runtime_template_basic'
     primary_resource_id: 'default'
+    primary_resource_name: 'fmt.Sprintf("runtime%s", context["random_suffix"])'
     vars:
       template_name: 'runbook-template'
-
+autogen_async: false
 properties:
   - !ruby/object:Api::Type::String
     name: "name"
@@ -60,6 +63,13 @@ properties:
     output: true
     description: |
       The default template to use if not specified.
+  - !ruby/object:Api::Type::String
+    name: "location"
+    immutable: true
+    required: true
+    url_param_only: true
+    description: |
+      The location where the runtime template should be created.
   - !ruby/object:Api::Type::NestedObject
     name: "machineSpec"
     description: |
@@ -77,7 +87,7 @@ properties:
         description: |
           Represents a hardware accelerator type.
         immutable: true
-        default_value: :ACCELERATOR_TYPE_UNSPECIFIED
+#        default_value: :ACCELERATOR_TYPE_UNSPECIFIED
         values:
           - :ACCELERATOR_TYPE_UNSPECIFIED
           - :NVIDIA_TESLA_K80
@@ -124,8 +134,9 @@ properties:
       - !ruby/object:Api::Type::Boolean
         name: "enableInternetAccess"
         description: |
-          Whether to enable public internet access.
-        default_value: false
+          Whether to enable public internet access.  If set to false, ensure that private google access is
+          enabled on the subnet.
+        default_value: true
       - !ruby/object:Api::Type::String
         name: "network"
         description: |
@@ -201,7 +212,7 @@ properties:
     description: |
       The type of the notebook runtime template.
     immutable: true
-    default_value: :NOTEBOOK_RUNTIME_TYPE_UNSPECIFIED
+#    default_value: :NOTEBOOK_RUNTIME_TYPE_UNSPECIFIED
     values:
       - :NOTEBOOK_RUNTIME_TYPE_UNSPECIFIED
       - :USER_DEFINED
