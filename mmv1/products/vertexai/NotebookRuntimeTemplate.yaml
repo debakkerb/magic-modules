@@ -42,6 +42,13 @@ examples:
     primary_resource_name: 'fmt.Sprintf("runtime%s", context["random_suffix"])'
     vars:
       template_name: 'runbook-template'
+  - !ruby/object:Provider::Terraform::Examples
+    name: 'vertex_ai_notebook_runtime_template_full'
+    primary_resource_id: 'default'
+    primare_resource_name: 'fmt.Sprintf("runtime-%s, context["random_suffix])'
+    vars:
+      template_name: 'runbook-template'
+      service_account_id: 'runbook-identity'
 autogen_async: false
 properties:
   - !ruby/object:Api::Type::String
