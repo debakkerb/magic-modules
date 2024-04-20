@@ -23,8 +23,15 @@ references: !ruby/object:Api::Resource::ReferenceLinks
   api: 'https://cloud.google.com/vertex-ai/docs/reference/rest/v1beta1/projects.locations.notebookRuntimes'
 base_url: ''
 self_link: ''
-create_url: ''
+create_url: 'projects/{{project}}/locations/{{location}}/notebookRuntimes:assign'
 immutable: true
+examples:
+  - !ruby/object:Provider::Terraform::Examples
+    name: 'vertex_ai_notebook_runtime_basic'
+    primary_resource_id: 'default'
+    primary_resource_name: 'fmt.Sprintf("runtime-%s, context["random_suffix"])'
+    vars:
+      runtime_name: 'runtime-template'
 properties:
   - !ruby/object:Api::Type::String
     name: 'name'
