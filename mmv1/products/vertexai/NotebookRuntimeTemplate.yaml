@@ -48,7 +48,6 @@ examples:
     primary_resource_name: 'fmt.Sprintf("runtime-%s, context["random_suffix])'
     vars:
       template_name: 'runbook-template'
-      service_account_id: 'runbook-identity'
 autogen_async: false
 properties:
   - !ruby/object:Api::Type::String
@@ -94,7 +93,6 @@ properties:
         description: |
           Represents a hardware accelerator type.
         immutable: true
-#        default_value: :ACCELERATOR_TYPE_UNSPECIFIED
         values:
           - :ACCELERATOR_TYPE_UNSPECIFIED
           - :NVIDIA_TESLA_K80
