@@ -217,7 +217,6 @@ properties:
     description: |
       The type of the notebook runtime template.
     immutable: true
-#    default_value: :NOTEBOOK_RUNTIME_TYPE_UNSPECIFIED
     values:
       - :NOTEBOOK_RUNTIME_TYPE_UNSPECIFIED
       - :USER_DEFINED
